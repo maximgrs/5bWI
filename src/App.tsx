@@ -1,5 +1,6 @@
 import "./App.css";
 import PeopleContainer from "./components/PeopleContainer";
+import HomeworkApp from "./molecules/Homework/HomeworkApp";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         </div>
         <PeopleContainer />
       </div>
+      <HomeworkApp />
     </>
   );
 }
