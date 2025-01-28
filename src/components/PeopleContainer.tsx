@@ -1,33 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
-import { Directus } from "@directus/sdk";
 
-const directus = new Directus("http://10.115.1.39:8055");
+type Person = {
+  id: number;
+  name: string;
+  description: string;
+  age: number;
+  imageUrl: string;
+};
 
 export default function PeopleContainer() {
-  const [people, setPeople] = useState([]);
+  const [people, setPeople] = useState<Person[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await directus.auth.login({
-          email: "admin@example.com",
-          password: "d1r3ctu5",
-        });
-
-        const response = await directus.items("students").readByQuery();
-        setPeople(response.data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+    fetch("http://10.115.1.39:8055/items/students").then((response) =>
+      response.json().then((data) => {
+        setPeople(data.data);
+      })
+    );
+  });
 
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
-      {people.map((person) => (
+      {people.map((person: Person) => (
         <Card
           name={person.name}
           description={person.description}
